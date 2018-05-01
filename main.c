@@ -8,7 +8,7 @@
 #include<string.h>
 GLuint tex_2d, tex_2d1, tex_2d2;
 
-int screen = 0,x=-150,flag=0,x1=12,y1=52,flag1=0,x2=-150,flag2=0;
+int screen = 0,x=-150,flag=0,x1=12,_y1=52,flag1=0,x2=-150,flag2=0,flag4=0,x4=0;
 GLfloat vertices[][3] ={{160,390-50,-70},{425,390-50,-70},
 					{425,510-50,-70}, {160,520-50,-70},
 
@@ -44,8 +44,7 @@ GLfloat colorsd[][3] = {{1.0,1.0,0.0},{0.0,0.6,0.7},{.3,.4,.5}};
 void frontpg()
 {
 	glEnable(GL_TEXTURE_2D);
-	
-		/*background*/
+    /*background*/
 	glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 	tex_2d2 = SOIL_load_OGL_texture
 		 (
@@ -62,12 +61,12 @@ void frontpg()
 		glTexCoord2f(0.0, 1.0);
 		glVertex2f(0,415);
 		glTexCoord2f(0.0, 0.0);
-		glVertex2f(0,650);	
+		glVertex2f(0,650);
 		glTexCoord2f(1.0, 0.0);
-		glVertex2f(1000,650);	
+		glVertex2f(1000,650);
 	glEnd();
 
-/*sidewalk*/
+    /*sidewalk*/
 	glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 	tex_2d2 = SOIL_load_OGL_texture
 		 (
@@ -84,24 +83,11 @@ void frontpg()
 		glTexCoord2f(0.0, 1.0);
 		glVertex2f(0,350);
 		glTexCoord2f(0.0, 0.0);
-		glVertex2f(0,415);	
+		glVertex2f(0,415);
 		glTexCoord2f(1.0, 0.0);
-		glVertex2f(1000,415);	
+		glVertex2f(1000,415);
 	glEnd();
-	
-	
     glDisable(GL_TEXTURE_2D);
-    //glutSwapBuffers();
-    //glFlush();
-}
-
-void init()
-{
-    glColor3f(0.0,0.0,0.0);
-    glPointSize(5.0);
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
-    gluOrtho2D(0.0,1200.0,0.0,700.0);
 }
 
 void drawStrokeText(char *string, int x, int y, int z)
@@ -109,15 +95,6 @@ void drawStrokeText(char *string, int x, int y, int z)
     glPushMatrix();
     glTranslatef(x,y+8,z);
     glScalef(0.33f,0.33f,z);
-    glutStrokeString(GLUT_STROKE_ROMAN, (unsigned char*)string);
-    glPopMatrix();
-}
-
-void PS_Text(char *string, int x, int y, int z)
-{
-    glPushMatrix();
-    glTranslatef(x,y+8,z);
-    glScalef(0.065f,0.065f,z);
     glutStrokeString(GLUT_STROKE_ROMAN, (unsigned char*)string);
     glPopMatrix();
 }
@@ -136,32 +113,42 @@ void text()
 {
     if(screen == 1 && flag == 0)
     {
-        glColor3f(1,1,1);
+        glColor3f(0,0,0);
         drawBitmapText1("Press x to start the scene",50,20);
     }
     if(screen == 1 && flag == 1 && x == 1000)
     {
-        glColor3f(1,1,1);
+        glColor3f(0,0,0);
         drawBitmapText1("Press left mouse button to move to next scene",50,20);
     }
     if(screen == 2 && flag1 == 0)
     {
-        glColor3f(1,1,1);
+        glColor3f(0,0,0);
         drawBitmapText1("Press x to start the scene",50,20);
     }
-    if(screen == 2 && flag1 == 1 && y1 > 310)
+    if(screen == 2 && flag1 == 1 && _y1 > 310)
     {
-        glColor3f(1,1,1);
+        glColor3f(0,0,0);
         drawBitmapText1("Press left mouse button to move to next scene",50,20);
     }
     if(screen == 3 && flag2 == 0)
     {
-        glColor3f(1,1,1);
+        glColor3f(0,0,0);
         drawBitmapText1("Press x to start the scene",50,20);
     }
     if(screen == 3 && flag2 == 1 && x2 == 1000)
     {
-        glColor3f(1,1,1);
+        glColor3f(0,0,0);
+        drawBitmapText1("Press left mouse button to move to next scene",50,20);
+    }
+    if(screen == 5 && flag4 == 0)
+    {
+        glColor3f(0,0,0);
+        drawBitmapText1("Press x to start the scene",50,20);
+    }
+    if(screen == 5 && flag4 == 1 && x4 == -1000)
+    {
+        glColor3f(0,0,0);
         drawBitmapText1("Press left mouse button to move to next scene",50,20);
     }
 }
@@ -191,14 +178,14 @@ void first_screen()
 void bus_stop()
 {
 //ground
-    glColor3ub(100,100,100);
+    glColor3ub(180,180,180);
     glBegin(GL_POLYGON);
         glVertex3i(340-200,400,-110);
         glVertex3i(680-200,400,-110);
         glVertex3i(710-200,430,-240);
         glVertex3i(370-200,430,-240);
     glEnd();
-    glColor3ub(100,100,100);
+    glColor3ub(180,180,180);
     glBegin(GL_POLYGON);
         glVertex3i(340-200,400,-110);
         glVertex3i(680-200,400,-110);
@@ -358,6 +345,9 @@ void bus_stop()
         glVertex3i(700-200,550,-120);
         glVertex3i(700-200,530,-120);
     glEnd();
+
+    //text
+    drawBitmapText1("BUS STOP",280,530);
 }
 
 void lamp_post()
@@ -1298,11 +1288,11 @@ void scene2_translate()
         woman();
         glPopMatrix();
     }
-    if(y1<=310)
+    if(_y1<=310)
     {
-        y1 += 1.5;
+        _y1 += 1.5;
         glPushMatrix();
-        glTranslatef(y1,0,0);
+        glTranslatef(_y1,0,0);
         man();
         glPopMatrix();
     }
@@ -1314,7 +1304,7 @@ void scene2_translate()
         woman();
         glPopMatrix();
     }
-    if(y1>310)
+    if(_y1>310)
     {
         glPushMatrix();
         glTranslatef(350,0,0);
@@ -1454,6 +1444,92 @@ void shrubd(int xtrans)
 	glTranslatef(12+5+xtrans,393+20,70);
 	glutSolidSphere(5,20,20);
 	glPopMatrix();
+}
+
+void grass1()
+{
+    glColor3ub(0,160,0);
+    glBegin(GL_TRIANGLES);
+        glVertex2d(100,10+10);
+        glVertex2d(95-5,50+10);
+        glVertex2d(105,15+10);
+        glVertex2d(100,10+10);
+        glVertex2d(85-5,45+10);
+        glVertex2d(103,15+10);
+        glVertex2d(100,10+10);
+        glVertex2d(108-5,60+10);
+        glVertex2d(110,20);
+        glVertex2d(108-3,20);
+        glVertex2d(116,55+10);
+        glVertex2d(114,20);
+        glVertex2d(112,20);
+        glVertex2d(124,45+10);
+        glVertex2d(118,20);
+        glVertex2d(116,20);
+        glVertex2d(132,35+10);
+        glVertex2d(122,20);
+    glEnd();
+}
+
+void grass()
+{
+    glBegin(GL_POLYGON);
+        glColor3f(0.6,1,0);
+        glVertex2d(0,10);
+        glColor3f(0.4,1,0);
+        glVertex2d(1000,10);
+        glColor3f(0.6,1,0);
+        glVertex2d(1000,200);
+        glColor3f(0.4,1,0);
+        glVertex2d(0,200);
+    glEnd();
+    glPushMatrix();
+    grass1();
+    glPopMatrix();
+    glPushMatrix();
+    glTranslatef(-40,80,0);
+    grass1();
+    glPopMatrix();
+    glPushMatrix();
+    glTranslatef(60+10,60,0);
+    grass1();
+    glPopMatrix();
+    glPushMatrix();
+    glTranslatef(100+60,40+70,0);
+    grass1();
+    glPopMatrix();
+    glPushMatrix();
+    glTranslatef(120+120,20+10,0);
+    grass1();
+    glPopMatrix();
+    glPushMatrix();
+    glTranslatef(160+150,80+10,0);
+    grass1();
+    glPopMatrix();
+    glPushMatrix();
+    glTranslatef(180+230,50+10,0);
+    grass1();
+    glPopMatrix();
+    glPushMatrix();
+    glTranslatef(60+10+400,60,0);
+    grass1();
+    glPopMatrix();
+    glPushMatrix();
+    glTranslatef(100+60+400,40+70,0);
+    grass1();
+    glPopMatrix();
+    glPushMatrix();
+    glTranslatef(120+120+400,20+10,0);
+    grass1();
+    glPopMatrix();
+    glPushMatrix();
+    glTranslatef(160+150+400,80+10,0);
+    grass1();
+    glPopMatrix();
+    glPushMatrix();
+    glTranslatef(180+230+400,50+10,0);
+    grass1();
+    glPopMatrix();
 }
 
 void woman4()
@@ -1685,17 +1761,63 @@ void pepper_spray()
 {
     glPushMatrix();
     glColor3ub(80,80,80);
-    glTranslatef(705,437,0);
-    glutSolidTorus(4,4,200,190);
+    glTranslatef(710,438,0);
+    glutSolidTorus(3,3,200,190);
     glPopMatrix();
     glColor3f(1,0,0);
     glBegin(GL_POLYGON);
         glColor3f(0.9,0.9,0.2);
-        glVertex2d(696,400);
-        glVertex2d(713,400);
+        glVertex2d(705,410);
+        glVertex2d(713,410);
         glVertex2d(713,435);
-        glVertex2d(696,435);
+        glVertex2d(705,435);
     glEnd();
+}
+
+void road()
+{
+    glColor3d(0.1,0.1,0.1);
+    glBegin(GL_POLYGON);
+        glVertex2d(0,200);
+        glVertex2d(0,350);
+        glVertex2d(700,350);
+        glVertex2d(700,200);
+    glEnd();
+    //int x;
+    glColor3d(1,1,1);
+    glEnable(GL_LINE_STIPPLE);
+    glLineStipple(1,0x00FF);
+    glBegin(GL_LINES);
+        glVertex2d(0,280);
+        glVertex2d(700,280);
+    glEnd();
+    glDisable(GL_LINE_STIPPLE);
+}
+
+void press_spray()
+{
+    int i;
+    for(i=0;i<5;i++)
+    {
+        glBegin(GL_LINES);
+            glVertex2d(687+i,445+i);
+            glVertex2d(631+i,465+i);
+        glEnd();
+    }
+}
+
+void scene4_translate()
+{
+    if(x4>-1000)
+    {
+        x4 -= 2;
+        glPushMatrix();
+        glTranslatef(300+x4,0,0);
+        man();
+        glPopMatrix();
+    }
+    if(x4 == -1000)
+        text();
 }
 
 void scene_1()
@@ -1703,15 +1825,16 @@ void scene_1()
     glPushMatrix();
 	frontpg();
     glPopMatrix();
-		
+
     glPushMatrix();
     bus_stop();
     lamp_post();
     road2d();
     man();
     tree();
-    text();
     shrubd(0);
+    grass();
+    text();
     glPushMatrix();
     glTranslatef(800,0,0);
     tree();
@@ -1735,9 +1858,10 @@ void scene_2()
     bus_stop();
     lamp_post();
     road2d();
-    text();
     tree();
     shrubd(0);
+    grass();
+    text();
     glPushMatrix();
     glTranslatef(800,0,0);
     tree();
@@ -1753,7 +1877,7 @@ void scene_2()
         woman();
         glPopMatrix();
     }
-    if(y1 == 52)
+    if(_y1 == 52)
     {
         glPushMatrix();
         glTranslatef(8,0,0);
@@ -1770,9 +1894,10 @@ void scene_3()
     glPushMatrix();
 	frontpg();
     glPopMatrix();
-    
+
     glPushMatrix();
     road2d();
+    grass();
     text();
     if(x2 < 390)
     {
@@ -1792,8 +1917,8 @@ void scene_3()
 
 void scene_4()
 {
-
-// waav
+    glColor3f(1,1,1);
+    drawBitmapText1("Press right mouse button to view the menu",50,20);
 }
 
 void scene_5()
@@ -1804,28 +1929,31 @@ void scene_5()
 
     glPushMatrix();
     road2d();
+    grass();
+    text();
     glPushMatrix();
     glTranslated(200,0,0);
     woman4();
     glPopMatrix();
-    glPushMatrix();
-    glTranslated(300,0,0);
-    man();
-    glPopMatrix();
+    if(flag4 == 0)
+    {
+        glPushMatrix();
+        glTranslated(300,0,0);
+        man();
+        glPopMatrix();
+    }
     glPushMatrix();
     glTranslatef(696,400,0);
     glRotatef(20,0,0,1);
     glTranslatef(-696,-400,0);
     pepper_spray();
     glPopMatrix();
-    glPushMatrix();
-    glTranslatef(700,410,0);
-    glRotatef(110,0,0,1);
-    glTranslatef(-700,-410,0);
-    glColor3f(0,0,0);
-    PS_Text("Pepper",698,402,0);
-    PS_Text("spray",698,395,0);
-    glPopMatrix();
+    if(flag4 == 1)
+    {
+        if(x4>-20)
+            press_spray();
+        scene4_translate();
+    }
     glPopMatrix();
 }
 
@@ -1834,23 +1962,33 @@ void scene_6()
     glPushMatrix();
 	frontpg();
     glPopMatrix();
-
+    road();
+    grass();
     glPushMatrix();
-    glTranslated(-100,-90,0);
+    glTranslated(10,-100,0);
     woman();
     glPopMatrix();
     glPushMatrix();
-    glTranslated(-20,-90,0);
+    glTranslated(60,-100,0);
     man();
     glPopMatrix();
     glPushMatrix();
     glTranslatef(0,-90,0);
+    glScalef(-100,0,0);
     road2d();
     glPopMatrix();
     glPushMatrix();
-    glTranslatef(150,-5,0);
+    glTranslatef(200,35,0);
     building();
     glPopMatrix();
+}
+
+void scene_7()
+{
+    glColor3f(1,1,0);
+    glLineWidth(3.0);
+    drawStrokeText("Respect",350+40,350,0);
+    drawStrokeText("Women",380+60,300,0);
 }
 
 void keys(unsigned char key,int x,int y)
@@ -1861,6 +1999,26 @@ void keys(unsigned char key,int x,int y)
         flag1 = 1;
     if(key == 'x' && screen == 3)
         flag2 = 1;
+    if(key == 'x' && screen == 5)
+        flag4 = 1;
+}
+
+void menu(int id)
+{
+    if(screen == 4 || screen == 5 || screen == 6)
+    {
+        switch(id)
+        {
+            case 1: screen = 1;
+                    break;
+            case 2: screen = 5;
+                    break;
+            case 3: screen = 6;
+                    break;
+            default: exit(0);
+        }
+    }
+    glutPostRedisplay();
 }
 
 void reshape(int w,int h)
@@ -1898,6 +2056,10 @@ void display(void)
         scene_5();
     if(screen==6)
         scene_6();
+    if(screen==7)
+        scene_7();
+    if(screen>7)
+        exit(0);
     glutSwapBuffers();
 }
 
@@ -1911,6 +2073,13 @@ int main(int argc, char* argv[])
     glEnable(GL_LIGHTING);
     glEnable(GL_LIGHT0);
     glutCreateWindow("CG Project");
+    int submenu = glutCreateMenu(menu);
+    glutAddMenuEntry("Female perspective",2);
+    glutAddMenuEntry("Male perspective",3);
+    glutCreateMenu(menu);
+    glutAddMenuEntry("Move back to scene 1",1);
+    glutAddSubMenu("What should be done?",submenu);
+    glutAttachMenu(GLUT_RIGHT_BUTTON);
     glutDisplayFunc(display);
     glutIdleFunc(display);
     glutReshapeFunc(reshape);
