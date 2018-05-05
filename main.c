@@ -90,6 +90,31 @@ void frontpg()
     glDisable(GL_TEXTURE_2D);
 }
 
+void last_page(){
+	glEnable(GL_TEXTURE_2D);
+	/*last page*/
+	glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+	tex_2d2 = SOIL_load_OGL_texture
+		 (
+			 "last.png",
+			 SOIL_LOAD_AUTO,
+			 SOIL_CREATE_NEW_ID,
+			 SOIL_FLAG_COMPRESS_TO_DXT
+		 );
+	glBindTexture(GL_TEXTURE_2D, tex_2d2);
+	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+	glBegin(GL_POLYGON);
+		glTexCoord2f(1.0, 1.0);
+		glVertex2f(1000,0);
+		glTexCoord2f(0.0, 1.0);
+		glVertex2f(0,0);
+		glTexCoord2f(0.0, 0.0);
+		glVertex2f(0,650);
+		glTexCoord2f(1.0, 0.0);
+		glVertex2f(1000,650);
+	glEnd();
+	glDisable(GL_TEXTURE_2D);
+}
 void drawStrokeText(char *string, int x, int y, int z)
 {
     glPushMatrix();
@@ -113,42 +138,42 @@ void text()
 {
     if(screen == 1 && flag == 0)
     {
-        glColor3f(0,0,0);
+        glColor3f(1,1,1);
         drawBitmapText1("Press x to start the scene",50,20);
     }
     if(screen == 1 && flag == 1 && x == 1000)
     {
-        glColor3f(0,0,0);
+        glColor3f(1,1,1);
         drawBitmapText1("Press left mouse button to move to next scene",50,20);
     }
     if(screen == 2 && flag1 == 0)
     {
-        glColor3f(0,0,0);
+        glColor3f(1,1,1);
         drawBitmapText1("Press x to start the scene",50,20);
     }
     if(screen == 2 && flag1 == 1 && _y1 > 310)
     {
-        glColor3f(0,0,0);
+        glColor3f(1,1,1);
         drawBitmapText1("Press left mouse button to move to next scene",50,20);
     }
     if(screen == 3 && flag2 == 0)
     {
-        glColor3f(0,0,0);
+        glColor3f(1,1,1);
         drawBitmapText1("Press x to start the scene",50,20);
     }
     if(screen == 3 && flag2 == 1 && x2 == 1000)
     {
-        glColor3f(0,0,0);
+        glColor3f(1,1,1);
         drawBitmapText1("Press left mouse button to move to next scene",50,20);
     }
     if(screen == 5 && flag4 == 0)
     {
-        glColor3f(0,0,0);
+        glColor3f(1,1,1);
         drawBitmapText1("Press x to start the scene",50,20);
     }
     if(screen == 5 && flag4 == 1 && x4 == -1000)
     {
-        glColor3f(0,0,0);
+        glColor3f(1,1,1);
         drawBitmapText1("Press left mouse button to move to next scene",50,20);
     }
 }
@@ -969,7 +994,7 @@ void bus_move()
         woman();
     if(x<1000)
     {
-        x += 2;
+        x += 4;
         glPushMatrix();
         glTranslatef(x,0,0);
         wheel1();
@@ -1258,7 +1283,7 @@ void building()
 void tree()
 {
     glBegin(GL_TRIANGLES);
-        glColor3f(0,1,0);
+        glColor3f(0,0.3,0);
         glVertex2d(30,430);
         glVertex2d(140,430);
         glVertex2d(85,500);
@@ -1374,13 +1399,13 @@ void car_move()
 {
     if(x2<1000)
     {
-        x2 += 5;
+        x2 += 11;
         glPushMatrix();
         glTranslatef(x2,0,0);
         car();
         glPopMatrix();
     }
-    if(x2 == 400) sleep(2);
+    if(x2 == 400) sleep(1);
     if(x2 > 400)
     {
         glPushMatrix();
@@ -1448,7 +1473,7 @@ void shrubd(int xtrans)
 
 void grass1()
 {
-    glColor3ub(0,160,0);
+    glColor3ub(0,100,0);
     glBegin(GL_TRIANGLES);
         glVertex2d(100,10+10);
         glVertex2d(95-5,50+10);
@@ -1474,13 +1499,13 @@ void grass1()
 void grass()
 {
     glBegin(GL_POLYGON);
-        glColor3f(0.6,1,0);
+        glColor3f(0,0,0);
         glVertex2d(0,10);
-        glColor3f(0.4,1,0);
+        glColor3f(0,0.01,0);
         glVertex2d(1000,10);
-        glColor3f(0.6,1,0);
+        glColor3f(0,0.3,0);
         glVertex2d(1000,200);
-        glColor3f(0.4,1,0);
+        glColor3f(0,0,0);
         glVertex2d(0,200);
     glEnd();
     glPushMatrix();
@@ -1985,10 +2010,13 @@ void scene_6()
 
 void scene_7()
 {
+    glPushMatrix();
+    last_page();
+    glPopMatrix();
     glColor3f(1,1,0);
     glLineWidth(3.0);
-    drawStrokeText("Respect",350+40,350,0);
-    drawStrokeText("Women",380+60,300,0);
+    drawStrokeText("Respect",350,350-220,0);
+    drawStrokeText("Women",350,300-220,0);
 }
 
 void keys(unsigned char key,int x,int y)
