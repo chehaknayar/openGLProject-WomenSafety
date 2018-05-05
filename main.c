@@ -1,3 +1,4 @@
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <GL/freeglut.h>
@@ -5,7 +6,7 @@
 
 #include<GL/glut.h>
 #include<SOIL/SOIL.h>
-
+#include<string.h>
 GLuint tex_2d, tex_2d1, tex_2d2;
 
 int screen = 0,x=-150,flag=0,x1=12,_y1=52,flag1=0,x2=-150,flag2=0,flag4=0,x4=0;
@@ -41,6 +42,31 @@ GLfloat verticesd[][3] ={{160,390-175,-70},{425,390-175,-70},
 
 GLfloat colorsd[][3] = {{1.0,1.0,0.0},{0.0,0.6,0.7},{.3,.4,.5}};
 
+void title(){
+	glEnable(GL_TEXTURE_2D);
+	/*title page*/
+	glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+	tex_2d2 = SOIL_load_OGL_texture
+		 (
+			 "front.png",
+			 SOIL_LOAD_AUTO,
+			 SOIL_CREATE_NEW_ID,
+			 SOIL_FLAG_COMPRESS_TO_DXT
+		 );
+	glBindTexture(GL_TEXTURE_2D, tex_2d2);
+	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+	glBegin(GL_POLYGON);
+		glTexCoord2f(1.0, 1.0);
+		glVertex2f(1000,0);
+		glTexCoord2f(0.0, 1.0);
+		glVertex2f(0,0);
+		glTexCoord2f(0.0, 0.0);
+		glVertex2f(0,650);
+		glTexCoord2f(1.0, 0.0);
+		glVertex2f(1000,650);
+	glEnd();
+	glDisable(GL_TEXTURE_2D);
+}
 void frontpg()
 {
 	glEnable(GL_TEXTURE_2D);
@@ -134,46 +160,56 @@ void drawBitmapText1(char *string, float x, float y)
     }
 }
 
+void drawBitmapText2(char *string, float x, float y)
+{
+    char *c;
+    glRasterPos2f(x,y);
+    for (c=string; *c != '\0'; c++)
+    {
+        glutBitmapCharacter(GLUT_BITMAP_HELVETICA_12,*c);
+    }
+}
+
 void text()
 {
     if(screen == 1 && flag == 0)
     {
-        glColor3f(1,1,1);
+        glColor3f(0,0,0);
         drawBitmapText1("Press x to start the scene",50,20);
     }
     if(screen == 1 && flag == 1 && x == 1000)
     {
-        glColor3f(1,1,1);
+        glColor3f(0,0,0);
         drawBitmapText1("Press left mouse button to move to next scene",50,20);
     }
     if(screen == 2 && flag1 == 0)
     {
-        glColor3f(1,1,1);
+        glColor3f(0,0,0);
         drawBitmapText1("Press x to start the scene",50,20);
     }
     if(screen == 2 && flag1 == 1 && _y1 > 310)
     {
-        glColor3f(1,1,1);
+        glColor3f(0,0,0);
         drawBitmapText1("Press left mouse button to move to next scene",50,20);
     }
     if(screen == 3 && flag2 == 0)
     {
-        glColor3f(1,1,1);
+        glColor3f(0,0,0);
         drawBitmapText1("Press x to start the scene",50,20);
     }
     if(screen == 3 && flag2 == 1 && x2 == 1000)
     {
-        glColor3f(1,1,1);
+        glColor3f(0,0,0);
         drawBitmapText1("Press left mouse button to move to next scene",50,20);
     }
     if(screen == 5 && flag4 == 0)
     {
-        glColor3f(1,1,1);
+        glColor3f(0,0,0);
         drawBitmapText1("Press x to start the scene",50,20);
     }
     if(screen == 5 && flag4 == 1 && x4 == -1000)
     {
-        glColor3f(1,1,1);
+        glColor3f(0,0,0);
         drawBitmapText1("Press left mouse button to move to next scene",50,20);
     }
 }
@@ -187,15 +223,17 @@ void mouse(int btn,int state,int x,int y)
 }
 void first_screen()
 {
-    glColor3f(1.0,0.5,0.0);
-    drawStrokeText("Women's Safety",360,500,0);
-    drawBitmapText1("A short animation story",430,470);
+    glPushMatrix();
+	title();
+    glPopMatrix();glColor3f(1.0,0.5,0.0);
+    drawBitmapText1("Women Safety",130,540);
+    drawBitmapText1("A short animation story",130,570);
     glColor3f(1.0,1.0,1.0);
-    drawBitmapText1("Done by-",480,200);
-    drawBitmapText1("Chehak Nayar",300,150);
-    drawBitmapText1("K V Bhavana",300,120);
-    drawBitmapText1("1PE15CS042",610,150);
-    drawBitmapText1("1PE15CS063",610,120);
+    drawBitmapText1("Done by-",130,400);
+    drawBitmapText1("Chehak Nayar",130,350);
+    drawBitmapText1("K V Bhavana",130,320);
+    drawBitmapText1("1PE15CS042",260,350);
+    drawBitmapText1("1PE15CS063",260,320);
     glColor3f(0.0,1.0,0.0);
     drawBitmapText1("Press left mouse button to move to next screen",580,20);
 }
@@ -994,7 +1032,7 @@ void bus_move()
         woman();
     if(x<1000)
     {
-        x += 4;
+        x += 2;
         glPushMatrix();
         glTranslatef(x,0,0);
         wheel1();
@@ -1283,7 +1321,7 @@ void building()
 void tree()
 {
     glBegin(GL_TRIANGLES);
-        glColor3f(0,0.3,0);
+        glColor3f(0,1,0);
         glVertex2d(30,430);
         glVertex2d(140,430);
         glVertex2d(85,500);
@@ -1399,13 +1437,13 @@ void car_move()
 {
     if(x2<1000)
     {
-        x2 += 11;
+        x2 += 5;
         glPushMatrix();
         glTranslatef(x2,0,0);
         car();
         glPopMatrix();
     }
-    if(x2 == 400) sleep(1);
+    if(x2 == 400) sleep(2);
     if(x2 > 400)
     {
         glPushMatrix();
@@ -1473,7 +1511,7 @@ void shrubd(int xtrans)
 
 void grass1()
 {
-    glColor3ub(0,100,0);
+    glColor3ub(0,160,0);
     glBegin(GL_TRIANGLES);
         glVertex2d(100,10+10);
         glVertex2d(95-5,50+10);
@@ -1499,13 +1537,13 @@ void grass1()
 void grass()
 {
     glBegin(GL_POLYGON);
-        glColor3f(0,0,0);
+        glColor3f(0.6,1,0);
         glVertex2d(0,10);
-        glColor3f(0,0.01,0);
+        glColor3f(0.4,1,0);
         glVertex2d(1000,10);
-        glColor3f(0,0.3,0);
+        glColor3f(0.6,1,0);
         glVertex2d(1000,200);
-        glColor3f(0,0,0);
+        glColor3f(0.4,1,0);
         glVertex2d(0,200);
     glEnd();
     glPushMatrix();
@@ -1845,6 +1883,56 @@ void scene4_translate()
         text();
 }
 
+void text1()
+{
+    if(screen != 4)
+    {
+        glColor3f(1,1,1);
+        glBegin(GL_POLYGON);
+            glVertex2d(310,170);
+            glVertex2d(700,170);
+            glVertex2d(700,230);
+            glVertex2d(310,230);
+        glEnd();
+    }
+    glColor3f(0,0,0);
+    if(screen == 1)
+    {
+        drawBitmapText2("It is late at night. A girl gets down from the bus after a long day",330,210);
+        drawBitmapText2("at work.There is another guy present at the bus stop.",350,180);
+    }
+    if(screen == 2)
+    {
+        drawBitmapText2("As the girl cautiously starts walking towards her home,",360,210);
+        drawBitmapText2("the guy starts following her.",430,180);
+    }
+    if(screen == 3)
+    {
+        drawBitmapText2("As soon as they reach a lonely, secluded area,",370,210);
+        drawBitmapText2("a car rushes to the spot and the girl is kidnapped.",370,180);
+    }
+    if(screen == 4)
+    {
+        glColor3f(1,1,0);
+        drawStrokeText("Crimes against women",280,580,0);
+        drawStrokeText("are common in our society today.",160,520,0);
+        drawStrokeText("It is the responsibilty",305,380,0);
+        drawStrokeText("of both men and women",260,320,0);
+        drawStrokeText("to understand how they react",210,260,0);
+        drawStrokeText("in such a situation.",330,200,0);
+    }
+    if(screen == 5)
+    {
+        drawBitmapText2("It is not long before the girl realizes she is being followed.",340,210);
+        drawBitmapText2("She reaches out to her pepper spray and uses it to protect herself.",320,180);
+    }
+    if(screen == 6)
+    {
+        drawBitmapText2("The guy notices that the girl is alone,",400,210);
+        drawBitmapText2("and escorts her to ensure that she safely reaches home.",360,180);
+    }
+}
+
 void scene_1()
 {
     glPushMatrix();
@@ -1868,6 +1956,7 @@ void scene_1()
     shrubd(80);
     shrubd(820);
     shrubd(900);
+    text1();
     if(flag == 1)
         bus_move();
     glPopMatrix();
@@ -1895,6 +1984,7 @@ void scene_2()
     shrubd(80);
     shrubd(820);
     shrubd(900);
+    text1();
     if(x1 == 12)
     {
         glPushMatrix();
@@ -1924,6 +2014,7 @@ void scene_3()
     road2d();
     grass();
     text();
+    text1();
     if(x2 < 390)
     {
         glPushMatrix();
@@ -1942,8 +2033,11 @@ void scene_3()
 
 void scene_4()
 {
+    glPushMatrix();
     glColor3f(1,1,1);
+    text1();
     drawBitmapText1("Press right mouse button to view the menu",50,20);
+    glPopMatrix();
 }
 
 void scene_5()
@@ -1956,6 +2050,7 @@ void scene_5()
     road2d();
     grass();
     text();
+    text1();
     glPushMatrix();
     glTranslated(200,0,0);
     woman4();
@@ -2006,6 +2101,7 @@ void scene_6()
     glTranslatef(200,35,0);
     building();
     glPopMatrix();
+    text1();
 }
 
 void scene_7()
@@ -2116,3 +2212,5 @@ int main(int argc, char* argv[])
     glutMainLoop();
     return 0;
 }
+
+ 
