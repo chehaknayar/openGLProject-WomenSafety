@@ -141,6 +141,7 @@ void last_page(){
 	glEnd();
 	glDisable(GL_TEXTURE_2D);
 }
+
 void drawStrokeText(char *string, int x, int y, int z)
 {
     glPushMatrix();
@@ -225,9 +226,11 @@ void first_screen()
 {
     glPushMatrix();
 	title();
-    glPopMatrix();glColor3f(1.0,0.5,0.0);
-    drawBitmapText1("Women Safety",130,540);
-    drawBitmapText1("A short animation story",130,570);
+    glPopMatrix();
+    glColor3f(1.0,0.5,0.0);
+    drawStrokeText("Women Safety",130,570,0);
+    glColor3f(1.0,0.3,0.0);
+    drawBitmapText1("A short animation story",130,540);
     glColor3f(1.0,1.0,1.0);
     drawBitmapText1("Done by-",130,400);
     drawBitmapText1("Chehak Nayar",130,350);
@@ -1321,15 +1324,23 @@ void building()
 void tree()
 {
     glBegin(GL_TRIANGLES);
-        glColor3f(0,1,0);
+        glColor3f(0.2,1,0);
         glVertex2d(30,430);
+        glColor3f(0.3,1,0);
         glVertex2d(140,430);
+        glColor3f(0.5,1,0);
         glVertex2d(85,500);
+        glColor3f(0.2,1,0);
         glVertex2d(40,480);
+        glColor3f(0.3,1,0);
         glVertex2d(130,480);
+        glColor3f(0.5,1,0);
         glVertex2d(85,550);
+        glColor3f(0.2,1,0);
         glVertex2d(50,530);
+        glColor3f(0.3,1,0);
         glVertex2d(120,530);
+        glColor3f(0.5,1,0);
         glVertex2d(85,600);
     glEnd();
     glBegin(GL_POLYGON);
@@ -1435,6 +1446,8 @@ void car()
 
 void car_move()
 {
+    if(x2<380)
+        help_board();
     if(x2<1000)
     {
         x2 += 5;
@@ -1933,6 +1946,22 @@ void text1()
     }
 }
 
+void help_board()
+{
+    glColor3f(1,1,1);
+    glPushMatrix();
+	glTranslatef(790,500,-70);
+	glutSolidSphere(30,25,25);
+	glPopMatrix();
+	glBegin(GL_POLYGON);
+        glVertex2d(790-15,500-25);
+        glVertex2d(783-15,485-25);
+        glVertex2d(797-15,500-25);
+    glEnd();
+	glColor3f(0,0,0);
+	drawBitmapText1("HELP",770,490);
+}
+
 void scene_1()
 {
     glPushMatrix();
@@ -2213,4 +2242,3 @@ int main(int argc, char* argv[])
     return 0;
 }
 
- 
