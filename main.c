@@ -6,7 +6,7 @@
 
 #include<GL/glut.h>
 #include<SOIL/SOIL.h>
-#include<string.h>
+
 GLuint tex_2d, tex_2d1, tex_2d2;
 
 int screen = 0,x=-150,flag=0,x1=12,_y1=52,flag1=0,x2=-150,flag2=0,flag4=0,x4=0;
